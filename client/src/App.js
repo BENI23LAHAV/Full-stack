@@ -23,7 +23,8 @@ function App() {
       <header className="App-header">
         <Yom_zvaa />
         <h2>{user.name}</h2>
-        {/* <h3>{user.company?.name}</h3> */}
+        <h3>{user.email}</h3>
+        <h3>{user.city}</h3>
         <button>
           <Link to={"/"}>Home</Link>
         </button>

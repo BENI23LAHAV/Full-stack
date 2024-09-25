@@ -10,9 +10,8 @@ function Home() {
   {
     /*-----------------the user url----------------------- */
   }
-  //let url = "https://jsonplaceholder.typicode.com/users/1"
-  let url = "https://localhost:4000/users/0";
-
+  // let url = "https://jsonplaceholder.typicode.com/users/1"
+  let url = "http://localhost:4000/10";
   {
     /*-------------get the global useState-------------------- */
   }
