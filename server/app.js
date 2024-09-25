@@ -56,6 +56,7 @@ function selectColumn(columnName) {
 /*------------------- home page ------------------- */
 app.get("/", (req, res) => {
   res.send("Hello, World!");
+  console.log(59, "hi");
 });
 
 
@@ -137,7 +138,7 @@ app.get("/:id", (req, res) => {
     }
    
     else{
-      res.send(results);
+      res.send(results[0]);
     }
   });
 });
