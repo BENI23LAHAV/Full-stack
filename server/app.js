@@ -22,13 +22,15 @@ const connection = mysql.createConnection({
   database: "easy",
 });
 
+/*----------------create the conection to the DB and kipp it open ----------- */
 connection.connect((err) => {
   if (err) {
-    console.error("Error connecting to the database:", err);
+    console.error(28, "Error connecting to the database:", err);
     return;
   }
   console.log("Connected to the MySQL database");
 });
+
 /**-----------Function to select the database column----------- */
 function selectColumn(columnName) {
   switch (columnName) {
@@ -51,10 +53,13 @@ function selectColumn(columnName) {
   }
 }
 
+/*------------------- home page ------------------- */
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
+
+/*-------------- testing zone ------------------ */
 app.get("/select/:id", (req, res) => {
   console.log(req.params.id);
 
@@ -96,34 +101,38 @@ app.get("/select/:id/:pos", (req, res) => {
   }
 });
 
-app.get("/:id/posts", (req, res) => {
+// app.get("/:id/posts", (req, res) => {
  
-  connection.query("SELECT id, title, body FROM posts WHERE user_id=?;", [req.params.id], (err, results) => {
-  if (err) {
-    console.error(103, "Error fetching data:", err);
-    res.status(500).send("Error fetching data from the database");
-  }
-  else if(!results[0]) {
-    console.error(108, "Error fetching data:");
-    res.status(500).send("no database found.");
-  }
-  else{
-    res.send(results);
-  }
-});
+//   connection.query("SELECT id, title, body FROM posts WHERE user_id=?;", [req.params.id], (err, results) => {
+//   if (err) {
+//     console.error(103, "Error fetching data:", err);
+//     res.status(500).send("Error fetching data from the database");
+//   }
+//   else if(!results[0]) {
+//     console.error(108, "Error fetching data:");
+//     res.status(500).send("no database found.");
+//   }
+//   else{
+//     res.send(results);
+//   }
+// });
+// 
+// });
 
-});
 
-app.get("/:id/photos", (req, res) => {
-  let album_id = req.query["albumId"];
-  console.log(req.query);
-  connection.query("SELECT * FROM photos WHERE album_id=?;", [album_id], (err, results) => {
+/*----------------------get the user info ---------------*/
+app.get("/:id", (req, res) => {
+  let id = req.params.id;
+  connection.query(`SELECT  u.name, u.user_name, u.email, u.phone, a.street, a.suite, a.city
+                    FROM users u
+                    join address a on u.id = a.id
+                    WHERE a.id=?;`, [id], (err, results) => {
     if (err) {
-      console.error("Error fetching data:", err);
+      console.error(131, "Error fetching data: no user", err);
       res.status(500).send("Error fetching data from the database");
     }
     else if(!results[0]) {
-      console.error(125, "Error fetching data:");
+      console.error(135, "Error fetching data: no user");
       res.status(500).send("no database found.");
     }
    
@@ -132,19 +141,65 @@ app.get("/:id/photos", (req, res) => {
     }
   });
 });
-// 
+
+/*---------------- get photos from albums id --------------------- */
+app.get("/:id/photos", (req, res) => {
+  let album_id = req.query["albumId"];
+  console.log(req.query);
+  connection.query("SELECT id, title, thumbail_url FROM photos WHERE album_id=?;", [album_id], (err, results) => {
+    if (err) {
+      console.error(151, "Error fetching data:", err);
+      res.status(500).send("Error fetching data from the database");
+    }
+    else if(!results[0]) {
+      console.error(155, "Error fetching data:");
+      res.status(500).send("no database found.");
+    }
+   
+    else{
+      res.send(results);
+    }
+  });
+});
+
+
+/*-------------------- get comments from post id -----------------------*/
+app.get("/:id/comments", (req, res) => {
+  let post_id = req.query["postId"];
+  console.log(req.query);
+  connection.query(`SELECT c.post_id, u.name, u.email, c.body
+                    FROM comments c
+                    join users u on c.name = u.id
+                    WHERE c.post_id=?;`, [post_id], (err, results) => {
+    if (err) {
+      console.error(175, "Error fetching data:", err);
+      res.status(500).send("Error fetching data from the database");
+    }
+    else if(!results[0]) {
+      console.error(179, "Error fetching data:");
+      res.status(500).send("no database found.");
+    }
+   
+    else{
+      res.send(results);
+    }
+  });
+});
+
 app.get("/:id/:folder", (req, res) => {
  
 // const user_id = req.params.folder === "photos" ? "album_id" : "user_id"  
 
+
+/*-------------------------get posts / albums / todos from user id ------------------ */
   connection.query(`SELECT * FROM ${req.params.folder} WHERE user_id=?;`, [req.params.id], (err, results) => {
     if (err) {
       req.query
-      console.error("Error fetching data:", err);
+      console.error(198, "Error fetching data:", err);
       res.status(500).send("Error fetching data from the database");
     }
     else if(!results[0]) {
-      console.error(108, "Error fetching data:");
+      console.error(202, "Error fetching data:");
       res.status(500).send("no database found.");
     }
     else{
@@ -164,6 +219,8 @@ app.get("/:id/:folder", (req, res) => {
 //   });
 // });
 
+
+/*-----------------set listener open on port 4000 ------------------ */
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
