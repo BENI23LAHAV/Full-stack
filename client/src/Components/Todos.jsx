@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Fetch from "./fetch";
+import Fetch, { FetchDelete } from "./fetch";
 import Todo from "./Todo";
 import NewTodo from "./NewTodo";
 let prevLen = 0;
@@ -13,8 +13,13 @@ const Todos = (props) => {
   const url = "http://localhost:4000/2/todos";
 
   useEffect(() => {
+    console.log(todoClicked);
+  }, [todoClicked]);
+
+  useEffect(() => {
     Fetch(url, setTodos);
   }, []);
+
   const [miniTodos, setMiniTodos] = useState([]);
   useEffect(() => {
     setMiniTodos(todos);
@@ -124,14 +129,15 @@ const Todos = (props) => {
             setNewTodo(false);
             // setEditodo(false);
             if (todoClicked !== -1) {
-              setTodos((prev) =>
-                [...prev].filter((todo) => todo.id !== todoClicked)
-              );
-              console.log("deleted", todoClicked);
+              const urlDelete = `http://localhost:4000/2/todos/?todoId=${todoClicked}`;
+              console.log("urlDelete: ", urlDelete);
+              FetchDelete(urlDelete);
+
               setTodoCLicked(-1);
+              window.location.reload();
             }
           }}>
-          Delet
+          Delete
         </button>
         {/* <button
           onClick={() => {

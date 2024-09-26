@@ -18,14 +18,7 @@ async function FetchDelete(url) {
   })
     .then((res) => {
       if (res.ok) {
-        // setState(() => {
-        //   console.log("url: ", url);
-        //   console.log("url: ", url.slice(0, url.lastIndexOf("/")));
-        //   url = url.slice(0, url.lastIndexOf("/"));
-        //   Fetch(url, setState);
-        // });
-        // console.log(url.slice(0, url.lastIndexOf("/")));
-
+        console.log("deleted");
         return res.json();
       } else {
         console.error("Failed to delete");
@@ -37,5 +30,28 @@ async function FetchDelete(url) {
       }
     });
 }
-export { FetchDelete };
+async function FetchPut(url, data) {
+  fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("updated");
+        return res.json();
+      } else {
+        console.error("Failed to update");
+      }
+    })
+    .then((json) => {
+      if (json) {
+        console.log(json);
+      }
+    });
+}
+
+export { FetchDelete, FetchPut };
 export default Fetch;
