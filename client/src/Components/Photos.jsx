@@ -6,7 +6,8 @@ const Photos = (props) => {
   const [photos, setPhotos] = useState([]);
   const [counter, setCounter] = useState(0);
   const [albumId, setAlbumId] = useContext(AlbumId);
-  const url = `https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`;
+  // const url = `https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`;
+  let url = "http://localhost:4000/2/photos?albumId=10";
   useEffect(() => {
     Fetch(url, setPhotos);
   }, []);

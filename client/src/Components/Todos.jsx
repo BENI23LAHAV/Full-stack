@@ -10,7 +10,7 @@ const Todos = (props) => {
   const [todoClicked, setTodoCLicked] = useState(-1);
   const [todos, setTodos] = useState([]);
   // const url = "https://jsonplaceholder.typicode.com/todos?userId=1";
-  const url = "https://localhost:4000/select/todos/0";
+  const url = "http://localhost:4000/2/todos";
 
   useEffect(() => {
     Fetch(url, setTodos);

@@ -13,7 +13,7 @@ const Albums = (props) => {
   //  to set the albumId when clicked on it.
   const [albumId, setAlbumId] = useContext(AlbumId);
   // const url = "https://jsonplaceholder.typicode.com/albums?userId=1";
-  const url = "https://localhost:4000/select/albums/0";
+  const url = "http://localhost:4000/2/albums";
 
   useEffect(() => {
     Fetch(url, setAlbums);
