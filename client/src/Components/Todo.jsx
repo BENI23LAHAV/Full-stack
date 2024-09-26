@@ -11,8 +11,8 @@ const Todo = ({ todo, setTodoCLicked }) => {
       className="todo"
       onClick={() => {
         setTodoCLicked(todo.id);
-      }}
-    >
+        // console.log(todo.id);
+      }}>
       <div>
         <button onClick={() => setNeedInput(!needInput)}>Edit</button>
         {needInput && (
@@ -21,12 +21,10 @@ const Todo = ({ todo, setTodoCLicked }) => {
             <button
               onClick={() => {
                 if (value.current.value) {
-                setTitle(value.current.value);
-              }
+                  setTitle(value.current.value);
+                }
                 setNeedInput(!needInput);
-               
-              }}
-            >
+              }}>
               Change
             </button>
           </p>
@@ -48,6 +46,5 @@ const Todo = ({ todo, setTodoCLicked }) => {
     </div>
   );
 };
-
 
 export default Todo;
