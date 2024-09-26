@@ -21,6 +21,7 @@ const Posts = () => {
   useEffect(() => {
     setMiniPosts(posts);
   }, [posts]);
+
   return (
     <>
       <h1>Posts</h1>
