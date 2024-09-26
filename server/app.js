@@ -153,10 +153,7 @@ app.get("/:id/photos", (req, res) => {
       if (err) {
         console.error(151, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      } else if (!results[0]) {
-        console.error(155, "Error fetching data:");
-        res.status(500).send("no database found.");
-      } else {
+      }  else {
         res.send(results);
       }
     }
@@ -177,10 +174,7 @@ app.get("/:id/comments", (req, res) => {
       if (err) {
         console.error(176, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      } else if (!results[0]) {
-        console.error(180, "Error fetching data:");
-        res.status(500).send("no database found.");
-      } else {
+      }  else {
         res.send(results);
       }
     }
@@ -196,6 +190,7 @@ app.get("/:id/:folder", (req, res) => {
       if (err) {
         console.error(198, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
+
       } else {
         res.send(results);
       }
@@ -253,6 +248,36 @@ app.delete("/:id/posts", (req, res) => {
     }
   );
 });
+
+
+/*------------- update todos -------------------- */
+app.put("/:id/todos/", (req, res) => {
+  let {id, title, completed} = req.body;
+  connection.query(`UPDATE todos SET title=?, completed=? WHERE id=?`, [title, completed, id], (err, results) => {
+    if (err) {
+      console.error(276, "Error fetching data:", err);
+      res.status(500).send("Error fetching data from the database");
+    } else {
+      console.log(results);
+      res.send("The update is complete.");
+    }
+  })
+});
+
+/*------------- update posts -------------------- */
+app.put("/:id/posts/", (req, res) => {
+  let {id, title, body} = req.body;
+  connection.query(`UPDATE posts SET title=?, body=? WHERE id=?`, [title, body, id], (err, results) => {
+    if (err) {
+      console.error(296, "Error fetching data:", err);
+      res.status(500).send("Error fetching data from the database");
+    } else {
+      console.log(results);
+      res.send("The update is complete.");
+    }
+  })
+});
+
 
 // app.get("/users", (req, res) => {
 //   connection.query("SELECT * FROM users", (err, results) => {
