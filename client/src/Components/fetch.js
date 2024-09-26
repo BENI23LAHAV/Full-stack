@@ -9,17 +9,22 @@ async function Fetch(url, setState) {
       setState(json);
       console.log(json);
     });
+  console.log(url);
 }
 /**----------Fetch delete----------------*/
-async function FetchDelete(url, setState) {
+async function FetchDelete(url) {
   fetch(url, {
     method: "DELETE",
   })
     .then((res) => {
       if (res.ok) {
-        setState(() => {
-          Fetch(url, setState);
-        });
+        // setState(() => {
+        //   console.log("url: ", url);
+        //   console.log("url: ", url.slice(0, url.lastIndexOf("/")));
+        //   url = url.slice(0, url.lastIndexOf("/"));
+        //   Fetch(url, setState);
+        // });
+        // console.log(url.slice(0, url.lastIndexOf("/")));
 
         return res.json();
       } else {
@@ -28,7 +33,6 @@ async function FetchDelete(url, setState) {
     })
     .then((json) => {
       if (json) {
-        setState(json);
         console.log(json);
       }
     });

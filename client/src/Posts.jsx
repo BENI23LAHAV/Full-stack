@@ -47,8 +47,14 @@ const Posts = () => {
       {newPost && (
         <NewPost setPosts={setPosts} length={posts.length + 1} posts={posts} />
       )}
-      {miniPosts.map((post) => (
-        <Post title={post.title} body={post.body} key={post.id} id={post.id} />
+      {miniPosts?.map((post) => (
+        <Post
+          title={post.title}
+          body={post.body}
+          key={post.id}
+          id={post.id}
+          setPosts={setPosts}
+        />
       ))}
     </>
   );
