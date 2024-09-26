@@ -10,10 +10,12 @@ const Post = (props) => {
   const title = props.title;
   const body = props.body;
   const id = props.id;
+  const setPosts = props.setPosts;
   /**comments zone */
   const commentsUrl = `http://localhost:4000/2/comments?postId=${id}`;
   const postUrl = `http://localhost:4000/2/posts/?postId=${id}`;
   const [commentsArr, setComentsArr] = useState([]);
+
   /** end of comments */
   const [coments, setComents] = useState([]);
   let coment = useRef("");
@@ -69,7 +71,8 @@ const Post = (props) => {
         {
           <button
             onClick={() => {
-              FetchDelete(postUrl, setComentsArr);
+              FetchDelete(postUrl);
+              window.location.reload();
             }}>
             🗑️ post
           </button>

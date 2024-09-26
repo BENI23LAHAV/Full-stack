@@ -190,7 +190,8 @@ app.get("/:id/:folder", (req, res) => {
       if (err) {
         console.error(198, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      }  else {
+
+      } else {
         res.send(results);
       }
     }
@@ -217,7 +218,7 @@ app.delete("/:id/todos/", (req, res) => {
 });
 
 /*------------- delete posts -------------------- */
-app.delete("/:id/posts/", (req, res) => {
+app.delete("/:id/posts", (req, res) => {
   let delTodo = req.query["postId"];
   connection.query(
     `DELETE FROM comments
