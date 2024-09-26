@@ -4,7 +4,7 @@ const Photo = ({photo}) => {
         <div className="photo">
           <h4>Photo id: {photo.id}</h4>
           <p>{photo.title}</p>
-          <img src={`${photo.thumbnailUrl}`} alt="thumbnailUrl error"/>
+          <img src={`${photo.thumbail_url}`} alt="thumbnailUrl error"/>
           </div>
   );
 };
