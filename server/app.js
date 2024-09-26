@@ -196,9 +196,6 @@ app.get("/:id/:folder", (req, res) => {
       if (err) {
         console.error(198, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      } else if (!results[0]) {
-        console.error(202, "Error fetching data:");
-        res.status(500).send("no database found.");
       } else {
         res.send(results);
       }
@@ -226,7 +223,7 @@ app.delete("/:id/todos/", (req, res) => {
 });
 
 /*------------- delete posts -------------------- */
-app.delete("/:id/posts/", (req, res) => {
+app.delete("/:id/posts", (req, res) => {
   let delTodo = req.query["postId"];
   connection.query(
     `DELETE FROM comments
@@ -236,7 +233,7 @@ app.delete("/:id/posts/", (req, res) => {
       if (err) {
         console.error(239, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      }  else {
+      } else {
         console.log(242, results);
         connection.query(
           `DELETE FROM posts
@@ -246,7 +243,7 @@ app.delete("/:id/posts/", (req, res) => {
             if (err) {
               console.error(250, "Error fetching data:", err);
               res.status(500).send("Error fetching data from the database");
-            }  else {
+            } else {
               console.log(252, results);
               res.send("The deletion is complete (from posts and comments).");
             }
