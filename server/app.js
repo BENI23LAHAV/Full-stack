@@ -366,6 +366,7 @@ app.post("/:id/posts", (req, res) => {
 app.post("/:id/comments", (req, res) => {
   let { post_id, body } = req.body;
   let user_id = req.params.id;
+
   connection.query(
     `INSERT INTO comments (post_id, name, email, body)
      VALUES (?, ?, ?, ?);`,

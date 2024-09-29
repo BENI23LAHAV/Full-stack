@@ -46,7 +46,7 @@ const Todos = (props) => {
           onClick={() => {
             setMiniTodos((prev) => {
               const sortedTodos = [...prev].sort((a, b) =>
-                a.title.localeCompare(b.title)
+                a.title.charAt(0).localeCompare(b.title.charAt(0))
               );
               return sortedTodos;
             });
@@ -141,7 +141,6 @@ const Todos = (props) => {
         </div>
       </div>
       <div style={{ border: "1px solid red", padding: "10px" }}>
-        {/* {newTodo && <NewTodo setTodos={setTodos} length={todos.length + 1} />} */}
         {newTodo && (
           <>
             <input ref={todoTitle} type="text" placeholder="Enter a title" />
@@ -160,30 +159,6 @@ const Todos = (props) => {
             </button>
           </>
         )}
-        {/* {
-          <button
-            onClick={() => {
-              // setNewTodo(false);
-              // setEditodo((prev) => !prev);
-            }}>
-            Edit
-          </button>
-        } */}
-
-        {/* {editTodo && <input type="text" ref={editText} /> && (
-          <button
-            onClick={() => {
-              toEdit(
-                todoClicked,
-                setTodoCLicked,
-                setTodos,
-                setEditodo,
-                editText
-              );
-            }}>
-            Change
-          </button>
-        )} */}
       </div>
       {miniTodos.map((item, i) => (
         <Todo setTodoCLicked={setTodoCLicked} todo={item} key={i} />
@@ -201,18 +176,3 @@ function searchMe(setMiniTodos, value) {
 }
 
 export default Todos;
-
-// function toEdit(todoClicked, setTodoCLicked, setTodos, setEditodo, editText) {
-//   if (todoClicked !== -1) {
-//     // return;
-//     setTodos((prev) => {
-//       const todoEdit = [...prev].find((item) => item.id === todoClicked);
-//       todoEdit.title = editText.current.value;
-//       [...prev].splice(todoClicked - 1, 1);
-//       return [...prev, todoEdit];
-//     });
-
-//     setEditodo(false);
-//     setTodoCLicked(-1);
-//   }
-// }
