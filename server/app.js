@@ -151,7 +151,7 @@ app.get("/:id/photos", (req, res) => {
     [album_id],
     (err, results) => {
       if (err) {
-        console.error(151, "Error fetching data:", err);
+        console.error(154, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         res.send(results);
@@ -165,7 +165,8 @@ app.get("/:id/comments", (req, res) => {
   let post_id = req.query["postId"];
   console.log(req.query);
   connection.query(
-    `SELECT c.post_id, u.name, u.email, c.body
+    // I add the c.id  and we need to check that there is no bug on it...
+    `SELECT c.id, c.post_id, u.name, u.email, c.body
                     FROM comments c
                     join users u on c.name = u.id
                     WHERE c.post_id=?;`,
@@ -188,7 +189,7 @@ app.get("/:id/:folder", (req, res) => {
     [req.params.id],
     (err, results) => {
       if (err) {
-        console.error(198, "Error fetching data:", err);
+        console.error(192, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         res.send(results);
@@ -206,7 +207,7 @@ app.delete("/:id/todos/", (req, res) => {
     [delTodo],
     (err, results) => {
       if (err) {
-        console.error(218, "Error fetching data:", err);
+        console.error(210, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         console.log(221, results);
@@ -248,6 +249,26 @@ app.delete("/:id/posts", (req, res) => {
   );
 });
 
+/*------------- delete comment ------------------ */
+app.delete("/:id/comments", (req, res) => {
+  let delComment = req.query["commentId"];
+  console.log(223, "hi");
+  connection.query(
+    `DELETE FROM comments
+     WHERE id=?;`,
+    [delComment],
+    (err, results) => {
+      if (err) {
+        console.error(261, "Error fetching data:", err);
+        res.status(500).send("Error fetching data from the database");
+      } else {
+        console.log(264, results);
+        res.send("The deletion is complete.");
+      }
+    }
+  );
+});
+
 /*------------- update todos -------------------- */
 app.put("/:id/todos", (req, res) => {
   let { id, title, completed } = req.body;
@@ -256,7 +277,7 @@ app.put("/:id/todos", (req, res) => {
     [title, completed, id],
     (err, results) => {
       if (err) {
-        console.error(258, "Error fetching data:", err);
+        console.error(260, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         console.log(results);
@@ -274,7 +295,26 @@ app.put("/:id/posts", (req, res) => {
     [title, body, id],
     (err, results) => {
       if (err) {
-        console.error(272, "Error fetching data:", err);
+        console.error(278, "Error fetching data:", err);
+        res.status(500).send("Error fetching data from the database");
+      } else {
+        console.log(results);
+        res.send("The update is complete.");
+      }
+    }
+  );
+});
+
+/*-------------- update comments ------------ */
+app.put("/:id/comments", (req, res) => {
+  let { id, post_id, body } = req.body;
+  let user_id = req.params.id;
+  connection.query(
+    `UPDATE comments SET post_id=?, name=?, email=?, body=? WHERE id=?`,
+    [post_id, user_id, user_id, body, id],
+    (err, results) => {
+      if (err) {
+        console.error(297, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         console.log(results);
@@ -293,7 +333,7 @@ app.post("/:id/todos", (req, res) => {
     [user_id, title, completed],
     (err, results) => {
       if (err) {
-        console.error(287, "Error fetching data:", err);
+        console.error(316, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         console.log(results);
@@ -312,11 +352,31 @@ app.post("/:id/posts", (req, res) => {
     [user_id, title, body],
     (err, results) => {
       if (err) {
-        console.error(302, "Error fetching data:", err);
+        console.error(335, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
       } else {
         console.log(results);
         res.send("The addition is complete.");
+      }
+    }
+  );
+});
+
+/*------------- add comments ------------------ */
+app.post("/:id/comments", (req, res) => {
+  let { post_id, body } = req.body;
+  let user_id = req.params.id;
+  connection.query(
+    `INSERT INTO comments (post_id, name, email, body)
+     VALUES (?, ?, ?, ?);`,
+    [post_id, user_id, user_id, body],
+    (err, results) => {
+      if (err) {
+        console.error(355, "Error adding comment:", err);
+        res.status(500).send("Error adding comment to the database");
+      } else {
+        console.log(results);
+        res.send("The comment has been added successfully.");
       }
     }
   );

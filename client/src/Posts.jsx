@@ -7,7 +7,7 @@ let prevLen = 0;
 
 const Posts = () => {
   // const url = "https://jsonplaceholder.typicode.com/posts?userId=1";
-  const url = "http://localhost:4000/2/posts";
+  const url = "http://localhost:4000/3/posts";
 
   const [posts, setPosts] = useState([]);
   const [miniPosts, setMiniPosts] = useState([]);
