@@ -153,7 +153,7 @@ app.get("/:id/photos", (req, res) => {
       if (err) {
         console.error(151, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      }  else {
+      } else {
         res.send(results);
       }
     }
@@ -174,7 +174,7 @@ app.get("/:id/comments", (req, res) => {
       if (err) {
         console.error(176, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-      }  else {
+      } else {
         res.send(results);
       }
     }
@@ -190,7 +190,6 @@ app.get("/:id/:folder", (req, res) => {
       if (err) {
         console.error(198, "Error fetching data:", err);
         res.status(500).send("Error fetching data from the database");
-
       } else {
         res.send(results);
       }
@@ -249,68 +248,79 @@ app.delete("/:id/posts", (req, res) => {
   );
 });
 
-
 /*------------- update todos -------------------- */
 app.put("/:id/todos", (req, res) => {
-  let {title, completed} = req.body;
-  let user_id = req.params.id;
-  connection.query(`UPDATE todos SET title=?, completed=? WHERE id=?`, [title, completed, user_id], (err, results) => {
-    if (err) {
-      console.error(258, "Error fetching data:", err);
-      res.status(500).send("Error fetching data from the database");
-    } else {
-      console.log(results);
-      res.send("The update is complete.");
+  let { id, title, completed } = req.body;
+  connection.query(
+    `UPDATE todos SET title=?, completed=? WHERE id=?`,
+    [title, completed, id],
+    (err, results) => {
+      if (err) {
+        console.error(258, "Error fetching data:", err);
+        res.status(500).send("Error fetching data from the database");
+      } else {
+        console.log(results);
+        res.send("The update is complete.");
+      }
     }
-  })
+  );
 });
 
 /*------------- update posts -------------------- */
 app.put("/:id/posts", (req, res) => {
-  let {title, body} = req.body;
-  let user_id = req.params.id;
-  connection.query(`UPDATE posts SET title=?, body=? WHERE id=?`, [title, body, user_id], (err, results) => {
-    if (err) {
-      console.error(272, "Error fetching data:", err);
-      res.status(500).send("Error fetching data from the database");
-    } else {
-      console.log(results);
-      res.send("The update is complete.");
+  let { id, title, body } = req.body;
+  connection.query(
+    `UPDATE posts SET title=?, body=? WHERE id=?`,
+    [title, body, id],
+    (err, results) => {
+      if (err) {
+        console.error(272, "Error fetching data:", err);
+        res.status(500).send("Error fetching data from the database");
+      } else {
+        console.log(results);
+        res.send("The update is complete.");
+      }
     }
-  })
+  );
 });
-
 
 /*------------- add todos -------------------- */
 app.post("/:id/todos", (req, res) => {
-  let {title, completed} = req.body;
+  let { title, completed } = req.body;
   let user_id = req.params.id;
-  connection.query(`INSERT INTO todos (user_id, title, completed) VALUES (?, ?, ?);`, [user_id, title, completed], (err, results) => {
-    if (err) {
-      console.error(287, "Error fetching data:", err);
-      res.status(500).send("Error fetching data from the database");
-    } else {
-      console.log(results);
-      res.send("The addition is complete.");
+  connection.query(
+    `INSERT INTO todos (user_id, title, completed) VALUES (?, ?, ?);`,
+    [user_id, title, completed],
+    (err, results) => {
+      if (err) {
+        console.error(287, "Error fetching data:", err);
+        res.status(500).send("Error fetching data from the database");
+      } else {
+        console.log(results);
+        res.send("The addition is complete.");
+      }
     }
-  })
+  );
 });
 
 /*------------- add posts -------------------- */
 app.post("/:id/posts", (req, res) => {
-  let {title, body} = req.body;
+  let { title, body } = req.body;
   let user_id = req.params.id;
-  connection.query(`INSERT INTO posts (user_id, title, body) VALUES (?, ?, ?);`, [user_id, title, body], (err, results) => {
-    if (err) { console.error(302, "Error fetching data:", err);
-      res.status(500).send("Error fetching data from the database");
-    } else {
-      console.log(results);
-      res.send("The addition is complete.");
+  connection.query(
+    `INSERT INTO posts (user_id, title, body) VALUES (?, ?, ?);`,
+    [user_id, title, body],
+    (err, results) => {
+      if (err) {
+        console.error(302, "Error fetching data:", err);
+        res.status(500).send("Error fetching data from the database");
+      } else {
+        console.log(results);
+        res.send("The addition is complete.");
+      }
     }
-  })
+  );
 });
-
-
 
 // app.get("/users", (req, res) => {
 //   connection.query("SELECT * FROM users", (err, results) => {
