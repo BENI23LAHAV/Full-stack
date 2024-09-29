@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import Fetch, { FetchDelete } from "./fetch";
+import Fetch, { FetchDelete, FetchPost } from "./fetch";
 import Todo from "./Todo";
 import NewTodo from "./NewTodo";
+
 let prevLen = 0;
 
 const Todos = (props) => {
@@ -26,6 +27,7 @@ const Todos = (props) => {
   }, [todos]);
   let search = useRef(0);
   // let editText = useRef("");
+  let todoTitle = useRef("");
   return (
     <>
       <h2>Todos</h2>
@@ -112,6 +114,7 @@ const Todos = (props) => {
             Not checked only
           </button>
         </div>
+
         <div>
           <button
             onClick={() => {
@@ -120,32 +123,53 @@ const Todos = (props) => {
             }}>
             Creat New Todo
           </button>
+          <button
+            onClick={() => {
+              setNewTodo(false);
+              // setEditodo(false);
+              if (todoClicked !== -1) {
+                const urlDelete = `http://localhost:4000/2/todos/?todoId=${todoClicked}`;
+                console.log("urlDelete: ", urlDelete);
+                FetchDelete(urlDelete);
+
+                setTodoCLicked(-1);
+                window.location.reload();
+              }
+            }}>
+            Delete
+          </button>
         </div>
       </div>
-      <div>
-        {newTodo && <NewTodo setTodos={setTodos} length={todos.length + 1} />}
-        <button
-          onClick={() => {
-            setNewTodo(false);
-            // setEditodo(false);
-            if (todoClicked !== -1) {
-              const urlDelete = `http://localhost:4000/2/todos/?todoId=${todoClicked}`;
-              console.log("urlDelete: ", urlDelete);
-              FetchDelete(urlDelete);
+      <div style={{ border: "1px solid red", padding: "10px" }}>
+        {/* {newTodo && <NewTodo setTodos={setTodos} length={todos.length + 1} />} */}
+        {newTodo && (
+          <>
+            <input ref={todoTitle} type="text" placeholder="Enter a title" />
+            <button
+              onClick={() => {
+                FetchPost(url, {
+                  title: todoTitle.current.value,
+                  completed: false,
+                });
 
-              setTodoCLicked(-1);
-              window.location.reload();
-            }
-          }}>
-          Delete
-        </button>
-        {/* <button
-          onClick={() => {
-            setNewTodo(false);
-            // setEditodo((prev) => !prev);
-          }}>
-          {/* Edit */}
-        {/* </button> */}
+                setNewTodo(false);
+
+                window.location.reload();
+              }}>
+              Submit
+            </button>
+          </>
+        )}
+        {/* {
+          <button
+            onClick={() => {
+              // setNewTodo(false);
+              // setEditodo((prev) => !prev);
+            }}>
+            Edit
+          </button>
+        } */}
+
         {/* {editTodo && <input type="text" ref={editText} /> && (
           <button
             onClick={() => {

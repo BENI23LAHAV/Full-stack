@@ -30,6 +30,7 @@ async function FetchDelete(url) {
       }
     });
 }
+/**----------Fetch put---------------- */
 async function FetchPut(url, data) {
   fetch(url, {
     method: "PUT",
@@ -52,6 +53,29 @@ async function FetchPut(url, data) {
       }
     });
 }
+/**----------Fetch post---------------- */
+async function FetchPost(url, data) {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("created");
+        return res.json();
+      } else {
+        console.error("Failed to create");
+      }
+    })
+    .then((json) => {
+      if (json) {
+        console.log(json);
+      }
+    });
+}
 
-export { FetchDelete, FetchPut };
+export { FetchDelete, FetchPut, FetchPost };
 export default Fetch;
