@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import Fetch, { FetchDelete } from "./fetch";
+import Fetch, { FetchDelete, FetchPut } from "./fetch";
 
 const Post = (props) => {
   const [clicked, setClicked] = useState(false);
@@ -18,7 +18,10 @@ const Post = (props) => {
 
   /** end of comments */
   const [coments, setComents] = useState([]);
+  const [editPost, setEditPost] = useState(false);
   let coment = useRef("");
+  let titlePost = useRef("");
+  let bodyPost = useRef("");
   //   console.log("id" + id);
   //   console.log("title" + title);
   //   console.log("body" + body);
@@ -77,7 +80,59 @@ const Post = (props) => {
             🗑️ post
           </button>
         }
+        {
+          <button
+            onClick={() => {
+              setEditPost((prev) => !prev);
+            }}>
+            Edit post
+          </button>
+        }
       </div>
+      {editPost && (
+        <>
+          <input
+            ref={titlePost}
+            type="text"
+            placeholder="Enter a title"
+            // defaultValue="Enter a title"
+          />
+
+          <input
+            ref={bodyPost}
+            type="text"
+            placeholder="Enter a body"
+            // defaultValue="Enter a body"
+          />
+
+          <button
+            onClick={() => {
+              const cuteddUrl = postUrl.slice(0, postUrl.lastIndexOf("/"));
+              // console.log("cutedUrl: " + cutedUrl);
+
+              FetchPut(cuteddUrl, {
+                title: titlePost.current.value,
+                body: bodyPost.current.value,
+                id: id,
+              });
+
+              setEditPost((prev) => !prev);
+              window.location.reload();
+            }}>
+            Change
+          </button>
+        </>
+      )}
+      {/* {editPost && (
+        <button
+          onClick={() => {
+            FetchPut(postUrl, { title: title, body: coment.current.value });
+            setEditPost((prev) => !prev);
+            setClicked((prev) => !prev);
+          }}>
+          Submit
+        </button>
+      )} */}
       <ul>
         {comentsClicked &&
           commentsArr.map((item, index) => {

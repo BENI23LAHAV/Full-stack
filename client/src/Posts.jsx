@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Fetch from "./Components/fetch";
+import Fetch, { FetchPost } from "./Components/fetch";
 import Post from "./Components/Post";
 import NewPost from "./Components/NewPost";
 
@@ -14,7 +14,8 @@ const Posts = () => {
   const [clickedPost, setClickedPost] = useState(-1);
   const [newPost, setNewPost] = useState(false);
   let search = useRef(0);
-
+  let titlePost = useRef("");
+  let bodyPost = useRef("");
   useEffect(() => {
     Fetch(url, setPosts);
   }, []);
@@ -44,8 +45,26 @@ const Posts = () => {
         }}>
         Creat New Post
       </button>
-      {newPost && (
+      {/* {newPost && (
         <NewPost setPosts={setPosts} length={posts.length + 1} posts={posts} />
+      )} */}
+
+      {newPost && (
+        <>
+          <input ref={titlePost} type="text" placeholder="Enter a title" />
+          <input ref={bodyPost} type="text" placeholder="Enter a body" />
+          <button
+            onClick={() => {
+              setNewPost((prev) => !prev);
+              FetchPost(url, {
+                title: titlePost.current.value,
+                body: bodyPost.current.value,
+              });
+              window.location.reload();
+            }}>
+            Submit
+          </button>
+        </>
       )}
       {miniPosts?.map((post) => (
         <Post
