@@ -377,7 +377,7 @@ app.post("/:id/comments", (req, res) => {
         res.status(500).send("Error adding comment to the database");
       } else {
         console.log(results);
-        res.send("The comment has been added successfully.");
+        res.send(JSON.stringify("The comment has been added successfully."));
       }
     }
   );
