@@ -1,7 +1,8 @@
+// import "./users-pass.json";
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-
+const bcrypt = require('bcrypt');
 const app = express();
 
 app.use(
@@ -28,7 +29,7 @@ connection.connect((err) => {
     console.error(28, "Error connecting to the database:", err);
     return;
   }
-  console.log("Connected to the MySQL database");
+  console.log(31, "Connected to the MySQL database");
 });
 
 /**-----------Function to select the database column----------- */
@@ -130,7 +131,7 @@ app.get("/:id", (req, res) => {
     [id],
     (err, results) => {
       if (err) {
-        console.error(131, "Error fetching data: no user", err);
+        console.error(133, "Error fetching data: no user", err);
         res.status(500).send("Error fetching data from the database");
       } else if (!results[0]) {
         console.error(135, "Error fetching data: no user");
@@ -397,3 +398,47 @@ app.post("/:id/comments", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+
+
+
+// Function to hash a password
+async function hashPassword(normalPassword) {
+  const numOfRounds = 10;
+  try {
+    const hash = await bcrypt.hash(normalPassword, numOfRounds);
+    console.log(409,'Hashed password:', hash);
+    return hash;
+  } catch (error) {
+    console.error(412, 'Error hashing password:', error);
+  }
+}
+
+// Function to verify a password
+async function verifyPassword(normalPassword, hashedPassword) {
+  try {
+    const isMatch = await bcrypt.compare(normalPassword, hashedPassword);
+    console.log(420, 'Password match:', isMatch);
+    return isMatch;
+  } catch (error) {
+    console.error(423, 'Error verifying password:', error);
+  }
+}
+
+
+/* Example usage
+async function example() {
+  const password = 'mySecurePassword123';
+  
+  // Hash the password
+  const hashedPassword = await hashPassword(password);
+  
+  // Verify the password (should return true)
+  await verifyPassword(password, hashedPassword);
+  
+  // Verify with wrong password (should return false)
+  await verifyPassword('wrongPassword', hashedPassword);
+}
+
+example();      */
+
