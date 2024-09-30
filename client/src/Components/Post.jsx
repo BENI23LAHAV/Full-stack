@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Fetch, { FetchDelete, FetchPut, FetchPost } from "./fetch";
 
 const Post = (props) => {
@@ -24,6 +24,10 @@ const Post = (props) => {
   const postUrl = `http://localhost:4000/2/posts/?postId=${id}`;
   const urlComment = "http://localhost:4000/2/comments";
 
+  // const [some, setSome] = useState(null);
+  // useEffect(() => {
+  //   console.log("some: ", some);
+  // }, [some]);
   return (
     <div
       className="post"
@@ -106,6 +110,7 @@ const Post = (props) => {
                 post_id: id,
                 body: bodyComment.current.value,
               });
+
               window.location.reload();
             }}>
             Submit

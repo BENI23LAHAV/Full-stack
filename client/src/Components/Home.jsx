@@ -23,6 +23,7 @@ function Home() {
   useEffect(() => {
     Fetch(url, setUser);
   }, []);
+
   return (
     <div>
       <button>
