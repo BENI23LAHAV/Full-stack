@@ -375,6 +375,9 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   try {
     let { userName, password } = req.body;
+
+    console.log("userName: ", userName, "password: ", password);
+
     const listOfUsers = JSON.parse(
       fs.readFileSync("./users-pass.json", "utf8")
     );
