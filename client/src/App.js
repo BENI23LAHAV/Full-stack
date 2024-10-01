@@ -16,7 +16,7 @@ import Login from "./Components/Login/Login";
 export const UserContext = createContext(null);
 export const AlbumId = createContext();
 function App() {
-  const [user, setUser] = useState("Hey im a global user");
+  const [user, setUser] = useState("");
   const [albumId, setAlbumId] = useState(1);
   const [acceptedUser, setAcceptedUser] = useState(false);
   useEffect(() => {
