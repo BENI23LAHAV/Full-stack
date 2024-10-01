@@ -8,10 +8,10 @@ import { UserContext } from "../App";
  */
 function Home() {
   /**---------------Trying to check user id global------------ */
-  const [haha, sethaha] = useContext(UserContext);
-  useEffect(() => {
-    console.log("im haha: ", haha);
-  }, [UserContext]);
+  // const [haha, sethaha] = useContext(UserContext);
+  // useEffect(() => {
+  //   console.log("im haha: ", haha);
+  // }, [UserContext]);
   /**---------------Trying to check user id global------------ */
   {
     /*-----------------the user url----------------------- */

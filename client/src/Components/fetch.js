@@ -71,7 +71,7 @@ async function FetchPost(url, data, setState) {
   })
     .then((res) => {
       if (res.ok) {
-        console.log("created");
+        // console.log("created");
 
         return res.json();
       } else {

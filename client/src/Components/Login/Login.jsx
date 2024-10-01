@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { FetchPost } from "../fetch";
 import { UserContext } from "../../App";
 
@@ -9,10 +9,10 @@ const urlRegister = "http://localhost:4000/register";
 /**---------------Login component--------------- */
 const Login = (props) => {
   /**---------------Trying to check user id global------------ */
-  const [some, setSome] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   useEffect(() => {
-    console.log("im a global some: ", some);
-    setSome("Im steel!!! a global user");
+    console.log("im a global user: ", user);
+    // setUser("Im steel!!! a global user");
   }, []);
 
   /**---------------Trying to check user id global------------ */
@@ -20,7 +20,9 @@ const Login = (props) => {
   const [showPassword, setShowPassword] = useState(false); //for show || !show password
   const [unCorrectValues, setUnCorrectValues] = useState(false); // for message if correct values
   const [logOrReg, setLogOrReg] = useState(true); // for login or register
+  const [regSuccess, setRegSuccess] = useState(false);
   const setAcceptedUser = props.setAcceptedUser; // props for set accepted user from the server in login
+
   /**---------------Refs for Login--------------- */
   let passwordInput = useRef(""); //for password
   let usernameInput = useRef(""); //for username
@@ -30,7 +32,6 @@ const Login = (props) => {
   let phoneInputReg = useRef(""); //for phone
   let passwordInputReg = useRef(""); //for password
   let emailInputReg = useRef(""); //for email
-  let addressInputReg = useRef(""); //for address
   let cityInputReg = useRef(""); //for city
   let streetInputReg = useRef(""); //for street
   let suiteInputReg = useRef(""); //for suite
@@ -42,7 +43,6 @@ const Login = (props) => {
       phoneInputReg.current.value &&
       passwordInputReg.current.value &&
       emailInputReg.current.value &&
-      addressInputReg.current.value &&
       cityInputReg.current.value &&
       streetInputReg.current.value &&
       suiteInputReg.current.value
@@ -54,13 +54,15 @@ const Login = (props) => {
 
   /**---------------Async login function--------------- */
   async function login(user) {
-    user = JSON.parse(user);
-    if (user.id) {
-      setAcceptedUser(user.id);
+    // user = JSON.parse(user);
+    console.log("im user: ", user);
+
+    if (user.user_id) {
+      setAcceptedUser(user.user_id);
       //do it to useContext
       navigate("/");
     } else {
-      console.log("User status: ", user.status);
+      console.log("User status: ", user.message);
       setUnCorrectValues(true);
       setTimeout(() => {
         setUnCorrectValues(false);
@@ -68,11 +70,15 @@ const Login = (props) => {
     }
   }
   async function register(user) {
-    user = JSON.parse(user);
-    if (user.id) {
-      console.log("User register succesfuly");
+    console.log("im user: ", user);
 
-      setLogOrReg(!logOrReg);
+    if (user.user_id) {
+      console.log("User register succesfuly");
+      setRegSuccess(true);
+      setTimeout(() => {
+        setRegSuccess(false);
+        setLogOrReg(!logOrReg);
+      }, 3000);
 
       // navigate("/login");
     } else {
@@ -146,16 +152,64 @@ const Login = (props) => {
         <>
           <div className="register">
             <h1>register</h1>
-            <input type="text" id="name" placeholder="name" required />
+            <input
+              ref={nameInputReg}
+              type="text"
+              id="name"
+              placeholder="name"
+              required
+            />
             <br />
-            <input type="text" id="userName" placeholder="userName" required />
+            <input
+              ref={usernameInputReg}
+              type="text"
+              id="userName"
+              placeholder="userName"
+              required
+            />
             <br />
-            <input type="text" id="email" placeholder="email" /> <br />
-            <input type="text" id="phone" placeholder="phone" /> <br />
-            <input type="text" id="password" placeholder="password" /> <br />
-            <input type="text" id="street" placeholder="street" /> <br />
-            <input type="text" id="city" placeholder="city" /> <br />
-            <input type="text" id="suite" placeholder="suite" /> <br />
+            <input
+              ref={emailInputReg}
+              type="text"
+              id="email"
+              placeholder="email"
+            />{" "}
+            <br />
+            <input
+              ref={phoneInputReg}
+              type="text"
+              id="phone"
+              placeholder="phone"
+            />{" "}
+            <br />
+            <input
+              ref={passwordInputReg}
+              type="text"
+              id="password"
+              placeholder="password"
+            />{" "}
+            <br />
+            <input
+              ref={streetInputReg}
+              type="text"
+              id="street"
+              placeholder="street"
+            />{" "}
+            <br />
+            <input
+              ref={cityInputReg}
+              type="text"
+              id="city"
+              placeholder="city"
+            />{" "}
+            <br />
+            <input
+              ref={suiteInputReg}
+              type="text"
+              id="suite"
+              placeholder="suite"
+            />{" "}
+            <br />
             <button
               onClick={() => {
                 if (checkInputs()) {
@@ -200,6 +254,7 @@ const Login = (props) => {
           </div>
         </>
       )}
+
       {logOrReg ? (
         <p
           onClick={() => {
@@ -218,6 +273,7 @@ const Login = (props) => {
         </p>
       )}
       {unCorrectValues && <p style={{ color: "red" }}>Uncorrect values</p>}
+      {regSuccess && <p style={{ color: "green" }}>Register succesfuly</p>}
     </>
   );
 };
