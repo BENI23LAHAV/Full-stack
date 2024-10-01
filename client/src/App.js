@@ -1,7 +1,7 @@
 import "./App.css";
 import Yom_zvaa from "./Components/Yom_zvaa";
 import "./App.css";
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import Home from "./Components/Home";
 import { Routes, Route, Link } from "react-router-dom";
 import Posts from "./Posts";
@@ -13,13 +13,15 @@ import Photos from "./Components/Photos";
 import ProtectedLogin from "./Components/Login/ProtectedLogin";
 import Login from "./Components/Login/Login";
 /*------------the main user------------------- */
-export const UserContext = createContext();
+export const UserContext = createContext(null);
 export const AlbumId = createContext();
 function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState("Hey im a global user");
   const [albumId, setAlbumId] = useState(1);
   const [acceptedUser, setAcceptedUser] = useState(false);
-
+  useEffect(() => {
+    console.log("acceptedUser: ", acceptedUser);
+  }, [acceptedUser]);
   return (
     <div className="App">
       <header className="App-header">

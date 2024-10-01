@@ -1,24 +1,87 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FetchPost } from "../fetch";
+import { UserContext } from "../../App";
 
 /**---------------URLs for Login & Register--------------- */
 const urlLogin = "http://localhost:4000/login";
 const urlRegister = "http://localhost:4000/register";
 /**---------------Login component--------------- */
 const Login = (props) => {
+  /**---------------Trying to check user id global------------ */
+  const [some, setSome] = useContext(UserContext);
+  useEffect(() => {
+    console.log("im a global some: ", some);
+    setSome("Im steel!!! a global user");
+  }, []);
+
+  /**---------------Trying to check user id global------------ */
+
   const [showPassword, setShowPassword] = useState(false); //for show || !show password
-  const [correctValues, setCorrectValues] = useState(false); // for message if correct values
+  const [unCorrectValues, setUnCorrectValues] = useState(false); // for message if correct values
   const [logOrReg, setLogOrReg] = useState(true); // for login or register
   const setAcceptedUser = props.setAcceptedUser; // props for set accepted user from the server in login
+  /**---------------Refs for Login--------------- */
   let passwordInput = useRef(""); //for password
   let usernameInput = useRef(""); //for username
+  /**---------------Ref for Register--------------- */
+  let nameInputReg = useRef(""); //for name
+  let usernameInputReg = useRef(""); //for username
+  let phoneInputReg = useRef(""); //for phone
+  let passwordInputReg = useRef(""); //for password
+  let emailInputReg = useRef(""); //for email
+  let addressInputReg = useRef(""); //for address
+  let cityInputReg = useRef(""); //for city
+  let streetInputReg = useRef(""); //for street
+  let suiteInputReg = useRef(""); //for suite
+  /**--------------Checking Inputs--------------- */
+  function checkInputs() {
+    return (
+      nameInputReg.current.value &&
+      usernameInputReg.current.value &&
+      phoneInputReg.current.value &&
+      passwordInputReg.current.value &&
+      emailInputReg.current.value &&
+      addressInputReg.current.value &&
+      cityInputReg.current.value &&
+      streetInputReg.current.value &&
+      suiteInputReg.current.value
+    );
+  }
+
+  /**---------------Navigate to home page--------------- */
   const navigate = useNavigate(); //for navigate to home page
 
   /**---------------Async login function--------------- */
   async function login(user) {
-    setAcceptedUser(user);
-    navigate("/");
+    user = JSON.parse(user);
+    if (user.id) {
+      setAcceptedUser(user.id);
+      //do it to useContext
+      navigate("/");
+    } else {
+      console.log("User status: ", user.status);
+      setUnCorrectValues(true);
+      setTimeout(() => {
+        setUnCorrectValues(false);
+      }, 3000);
+    }
+  }
+  async function register(user) {
+    user = JSON.parse(user);
+    if (user.id) {
+      console.log("User register succesfuly");
+
+      setLogOrReg(!logOrReg);
+
+      // navigate("/login");
+    } else {
+      console.log("User status: ", user.status);
+      setUnCorrectValues(true);
+      setTimeout(() => {
+        setUnCorrectValues(false);
+      }, 3000);
+    }
   }
   return (
     <>
@@ -69,17 +132,14 @@ const Login = (props) => {
                   );
                 } else {
                   /**--------------else show message--------------- */
-                  setCorrectValues(true);
+                  setUnCorrectValues(true);
                   setTimeout(() => {
-                    setCorrectValues(false);
+                    setUnCorrectValues(false);
                   }, 3000);
                 }
               }}>
               login
             </button>
-            {correctValues && (
-              <p style={{ color: "red" }}>incorrect username or password</p>
-            )}
           </div>
         </>
       )) || (
@@ -88,12 +148,7 @@ const Login = (props) => {
             <h1>register</h1>
             <input type="text" id="name" placeholder="name" required />
             <br />
-            <input
-              type="text"
-              id="userName"
-              placeholder="userName"
-              required
-            />{" "}
+            <input type="text" id="userName" placeholder="userName" required />
             <br />
             <input type="text" id="email" placeholder="email" /> <br />
             <input type="text" id="phone" placeholder="phone" /> <br />
@@ -101,10 +156,68 @@ const Login = (props) => {
             <input type="text" id="street" placeholder="street" /> <br />
             <input type="text" id="city" placeholder="city" /> <br />
             <input type="text" id="suite" placeholder="suite" /> <br />
-            <button>Register</button>
+            <button
+              onClick={() => {
+                if (checkInputs()) {
+                  FetchPost(
+                    urlRegister,
+                    {
+                      name: nameInputReg.current.value,
+                      userName: usernameInputReg.current.value,
+                      email: emailInputReg.current.value,
+                      phone: phoneInputReg.current.value,
+                      password: passwordInputReg.current.value,
+                      address: {
+                        street: streetInputReg.current.value,
+                        city: cityInputReg.current.value,
+                        suite: suiteInputReg.current.value,
+                      },
+                    },
+                    register
+                  );
+                } else {
+                  setUnCorrectValues(true);
+                  setTimeout(() => {
+                    setUnCorrectValues(false);
+                  }, 3000);
+                }
+              }}>
+              Register
+            </button>
+            {unCorrectValues && (
+              <>
+                {/* {" "}
+                <p style={{ color: "red" }}>incorrect values</p>
+                <p
+                  onClick={() => {
+                    setLogOrReg(!logOrReg);
+                  }}
+                  style={{ color: "green" }}>
+                  Already registered?
+                </p> */}
+              </>
+            )}
           </div>
         </>
       )}
+      {logOrReg ? (
+        <p
+          onClick={() => {
+            setLogOrReg(!logOrReg);
+          }}
+          style={{ color: "green" }}>
+          Not registered yet?
+        </p>
+      ) : (
+        <p
+          onClick={() => {
+            setLogOrReg(!logOrReg);
+          }}
+          style={{ color: "green" }}>
+          Registered?
+        </p>
+      )}
+      {unCorrectValues && <p style={{ color: "red" }}>Uncorrect values</p>}
     </>
   );
 };
