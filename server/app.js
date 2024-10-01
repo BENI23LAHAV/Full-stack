@@ -355,8 +355,8 @@ app.post("/:id/comments", (req, res) => {
 /*---------------------- create a new user --------------- */
 app.post("/register", (req, res) => {
   let state = {
-    id: null,
-    status: "",
+    user_id: null,
+    message: "",
   };
   try {
     let { name, password } = req.body;
@@ -365,8 +365,8 @@ app.post("/register", (req, res) => {
     const listOfUsers = JSON.parse(
       fs.readFileSync("./users-pass.json", "utf8")
     );
-    if (Object.keys(listOfUsers).includes(name)) {
-      state.status = "alredy have that username.";
+    if (Object.keys(listOfUsers).includes(userName)) {
+      state.message = "alredy have that username.";
       res.send(JSON.stringify(state));
     } else {
       try {
@@ -376,7 +376,7 @@ app.post("/register", (req, res) => {
           (err, result) => {
             if (err) {
               console.error(378, "Error inserting address:", err);
-              state.status = "Error inserting address";
+              state.message = "Error inserting address";
               return res.status(500).send(JSON.stringify(state));
             }
             connection.query(
@@ -384,7 +384,7 @@ app.post("/register", (req, res) => {
               (err, addressResult) => {
                 if (err) {
                   console.error(378, "Error inserting address:", err);
-                  state.status = "Error inserting address";
+                  state.message = "Error inserting address";
                   return res.status(500).send(JSON.stringify(state));
                 }
                 const addressId = addressResult[0].id;
@@ -395,14 +395,14 @@ app.post("/register", (req, res) => {
                   (err, userResult) => {
                     if (err) {
                       console.error(390, "Error inserting user:", err);
-                      state.status = "Error inserting user";
+                      state.message = "Error inserting user";
                       return res.status(500).send(JSON.stringify(state));
                     }
 
                     // Both queries succeeded
                     createUser(password, userName, listOfUsers);
-                    state.id = true;
-                    state.status = "Added a new user.";
+                    state.user_id = true;
+                    state.message = "Added a new user.";
                     res.send(JSON.stringify(state));
                   }
                 );
@@ -416,7 +416,7 @@ app.post("/register", (req, res) => {
     }
   } catch (error) {
     console.log(384, error);
-    state.status = "no data.";
+    state.message = "no data.";
     res.send(JSON.stringify(state));
   }
 });
@@ -424,8 +424,8 @@ app.post("/register", (req, res) => {
 /*---------------------- verify password -------------------------- */
 app.post("/login", (req, res) => {
   let state = {
-    id: null,
-    status: "",
+    user_id: null,
+    message: "",
   };
   try {
     let { userName, password } = req.body;
@@ -440,22 +440,22 @@ app.post("/login", (req, res) => {
         (err, results) => {
           if (err) {
             console.error(335, "Error fetching data:", err);
-            state.status = "Error fetching data from the database";
+            state.message = "Error fetching data from the database";
             res.status(500).send(JSON.stringify(state));
           } else {
             console.log(results[0]["id"]);
-            state.id = results[0]["id"];
-            state.status = `hi ${userName}, welcom.`;
+            state.user_id = results[0]["id"];
+            state.message = `hi ${userName}, welcom.`;
             checkPassword(password, listOfUsers[userName], res, state);
           }
         }
       );
     } else {
-      state.status = "no user in that name.";
+      state.message = "no user in that name.";
       res.send(JSON.stringify(state));
     }
   } catch (error) {
-    state.status = "no data";
+    state.message = "no data";
     res.send(JSON.stringify(state));
   }
 });
@@ -500,8 +500,17 @@ async function createUser(password, userName, listOfUsers) {
 async function checkPassword(normalPassword, hashedPassword, res, state) {
   let isMatch = await verifyPassword(normalPassword, hashedPassword);
   if (!isMatch) {
-    state.id = null;
-    state.status = "wrong password, try again.";
+    state.user_id = null;
+    state.message = "wrong password, try again.";
   }
   res.send(JSON.stringify(state));
 }
+
+/*------------ testing functions -----------------*/
+
+async function addPassword() {
+  let hash = await hashPassword("123456");
+  console.log(hash);
+}
+
+// addPassword();
