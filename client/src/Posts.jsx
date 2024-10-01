@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Fetch, { FetchPost } from "./Components/fetch";
 import Post from "./Components/Post";
-import NewPost from "./Components/NewPost";
-
+import { UserContext } from "./App";
 let prevLen = 0;
 
 const Posts = () => {
+  const [userID, setUserID] = useContext(UserContext);
+
   // const url = "https://jsonplaceholder.typicode.com/posts?userId=1";
-  const url = "http://localhost:4000/2/posts";
+  const url = `http://localhost:4000/${userID}/posts`;
 
   const [posts, setPosts] = useState([]);
   const [miniPosts, setMiniPosts] = useState([]);

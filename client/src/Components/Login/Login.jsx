@@ -9,11 +9,10 @@ const urlRegister = "http://localhost:4000/register";
 /**---------------Login component--------------- */
 const Login = (props) => {
   /**---------------Trying to check user id global------------ */
-  const [user, setUser] = useContext(UserContext);
+  const [userID, setUserID] = useContext(UserContext);
   useEffect(() => {
-    console.log("im a global user: ", user);
-    // setUser("Im steel!!! a global user");
-  }, []);
+    console.log("im a  userID: ", userID);
+  }, [userID]);
 
   /**---------------Trying to check user id global------------ */
 
@@ -59,6 +58,7 @@ const Login = (props) => {
 
     if (user.user_id) {
       setAcceptedUser(user.user_id);
+      setUserID(user.user_id);
       //do it to useContext
       navigate("/");
     } else {

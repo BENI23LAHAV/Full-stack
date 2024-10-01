@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Fetch, { FetchPut } from "./fetch";
+import { UserContext } from "../App";
 const Todo = ({ todo, setTodoCLicked }) => {
   const [completed, setCompleted] = useState();
   const [needInput, setNeedInput] = useState(false);
   const [title, setTitle] = useState(todo.title);
+  const [userID, setUserID] = useContext(UserContext);
   let value = useRef("");
-  const url = "http://localhost:4000/2/todos";
+  const url = `http://localhost:4000/${userID}/todos`;
   useEffect(() => setCompleted(todo.completed), [todo]);
   return (
     <div

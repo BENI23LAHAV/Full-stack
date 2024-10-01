@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Fetch, { FetchDelete, FetchPost } from "./fetch";
 import Todo from "./Todo";
-import NewTodo from "./NewTodo";
-
+import { UserContext } from "../App";
 let prevLen = 0;
 
 const Todos = (props) => {
@@ -10,8 +9,9 @@ const Todos = (props) => {
   // const [editTodo, setEditodo] = useState(false);
   const [todoClicked, setTodoCLicked] = useState(-1);
   const [todos, setTodos] = useState([]);
+  const [userID, setUserID] = useContext(UserContext);
   // const url = "https://jsonplaceholder.typicode.com/todos?userId=1";
-  const url = "http://localhost:4000/2/todos";
+  const url = `http://localhost:4000/${userID}/todos`;
 
   useEffect(() => {
     console.log(todoClicked);
@@ -128,7 +128,7 @@ const Todos = (props) => {
               setNewTodo(false);
               // setEditodo(false);
               if (todoClicked !== -1) {
-                const urlDelete = `http://localhost:4000/2/todos/?todoId=${todoClicked}`;
+                const urlDelete = `http://localhost:4000/${userID}/todos/?todoId=${todoClicked}`;
                 console.log("urlDelete: ", urlDelete);
                 FetchDelete(urlDelete);
 

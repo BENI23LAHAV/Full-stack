@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import Fetch from "./fetch";
 import Album from "./Album";
-import { AlbumId } from "../App";
+import { AlbumId, UserContext } from "../App";
 
 // saving the prev length of the search bar.
 let prevLen = 0;
@@ -12,8 +12,9 @@ const Albums = (props) => {
   const [albums, setAlbums] = useState([]);
   //  to set the albumId when clicked on it.
   const [albumId, setAlbumId] = useContext(AlbumId);
+  const [userID, setUserID] = useContext(UserContext);
   // const url = "https://jsonplaceholder.typicode.com/albums?userId=1";
-  const url = "http://localhost:4000/2/albums";
+  const url = `http://localhost:4000/${userID}/albums`;
 
   useEffect(() => {
     Fetch(url, setAlbums);
