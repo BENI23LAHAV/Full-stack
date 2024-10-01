@@ -1,14 +1,13 @@
 {
-
   "zip10": "$2b$10$.J.e60pIq5D4KSOp6YEBfOagKYktGsZTEd5Nv3iWNGVC7lv0pO/1a",
   "johndoe": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
   "janesmith": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "mikejohnson" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "saralee" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "tombrown" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "emilywhite" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "davidblack" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "rachelgreen" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "chrisblue" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
-  "annasilver" : "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by"
- }
+  "mikejohnson": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "saralee": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "tombrown": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "emilywhite": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "davidblack": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "rachelgreen": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "chrisblue": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by",
+  "annasilver": "$2b$10$o1KhAcgX6yrbvQVrScb.7.G63t0uwhkNpzKFJ7KwpWSEQuCUmk8by"
+}

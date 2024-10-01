@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import Fetch, { FetchDelete, FetchPut, FetchPost } from "./fetch";
-
+import { useReducer } from "react";
+import { UserContext } from "../App";
 const Post = (props) => {
   /**-----------Hooks for Showing posts,comments & staff----------- */
 
@@ -11,6 +12,9 @@ const Post = (props) => {
   const [editPost, setEditPost] = useState(false);
   const [addComment, setAddComment] = useState(false);
   const [editComment, setEditComment] = useState(false);
+
+  /**------------User context------------------- */
+  const [userID, setUserID] = useContext(UserContext);
   /**------------Refs for Post------------------- */
   let titlePost = useRef("");
   let bodyPost = useRef("");
@@ -20,9 +24,9 @@ const Post = (props) => {
   const body = props.body;
   const id = props.id;
   /**------------URLs for Fetching-------------------- */
-  const commentsUrl = `http://localhost:4000/2/comments?postId=${id}`;
-  const postUrl = `http://localhost:4000/2/posts/?postId=${id}`;
-  const urlComment = "http://localhost:4000/2/comments";
+  const commentsUrl = `http://localhost:4000/${userID}/comments?postId=${id}`;
+  const postUrl = `http://localhost:4000/${userID}/posts/?postId=${id}`;
+  const urlComment = `http://localhost:4000/${userID}/comments`;
 
   // const [some, setSome] = useState(null);
   // useEffect(() => {

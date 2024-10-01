@@ -16,32 +16,40 @@ function Home() {
   {
     /*-----------------the user url----------------------- */
   }
-  // let url = "https://jsonplaceholder.typicode.com/users/1"
-  let url = "http://localhost:4000/3";
   {
     /*-------------get the global useState-------------------- */
   }
-  const [user, setUser] = useContext(UserContext);
+  const [user, setUser] = useState({});
+  const [userID, setUserID] = useContext(UserContext);
+  // let url = "https://jsonplaceholder.typicode.com/users/1"
+  let url = `http://localhost:4000/${userID}`;
 
   {
     /*--------------render the user-info when get it--------------- */
   }
   useEffect(() => {
     Fetch(url, setUser);
-  }, []);
+  }, [userID]);
 
   return (
-    <div>
-      <button>
-        <Link to={"/todos"}>Todos</Link>
-      </button>
-      <button>
-        <Link to={"/posts"}>Posts</Link>
-      </button>
-      <button>
-        <Link to={"/albums"}>Albums</Link>
-      </button>
-    </div>
+    <>
+      <div>
+        <h2>{user.name}</h2>
+        <h3>{user.email}</h3>
+        <h3>{user.city}</h3>
+      </div>
+      <div>
+        <button>
+          <Link to={"/todos"}>Todos</Link>
+        </button>
+        <button>
+          <Link to={"/posts"}>Posts</Link>
+        </button>
+        <button>
+          <Link to={"/albums"}>Albums</Link>
+        </button>
+      </div>
+    </>
   );
 }
 
