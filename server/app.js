@@ -351,43 +351,112 @@ app.post("/:id/comments", (req, res) => {
     }
   );
 });
-
+/**-------------todo: I am here !!!!!!!!!!!!! need to push the sql the data gets about the user------------- */
 /*---------------------- create a new user --------------- */
 app.post("/register", (req, res) => {
+  let state = {
+    id: null,
+    status: "",
+  };
   try {
-    let { userName, password } = req.body;
+    let { name, password } = req.body;
+    let { userName, email, phone, address } = req.body;
+    let { street, suite, city } = address;
     const listOfUsers = JSON.parse(
       fs.readFileSync("./users-pass.json", "utf8")
     );
-    if (Object.keys(listOfUsers).includes(userName)) {
-      res.send(JSON.stringify("alredy have that username."));
+    if (Object.keys(listOfUsers).includes(name)) {
+      state.status = "alredy have that username.";
+      res.send(JSON.stringify(state));
     } else {
-      createUser(password, userName, listOfUsers);
-      res.send(JSON.stringify("Added a new user."));
+      try {
+        connection.query(
+          `INSERT INTO address(street, suite, city) VALUES (?, ?, ?);`,
+          [street, suite, city],
+          (err, result) => {
+            if (err) {
+              console.error(378, "Error inserting address:", err);
+              state.status = "Error inserting address";
+              return res.status(500).send(JSON.stringify(state));
+            }
+            connection.query(
+              `SELECT id FROM address WHERE id=(SELECT max(id) FROM address);`,
+              (err, addressResult) => {
+                if (err) {
+                  console.error(378, "Error inserting address:", err);
+                  state.status = "Error inserting address";
+                  return res.status(500).send(JSON.stringify(state));
+                }
+                const addressId = addressResult[0].id;
+                console.log(391, addressId);
+                connection.query(
+                  `INSERT INTO users(name, user_name, email, phone, address_id) VALUES (?, ?, ?, ?, ?);`,
+                  [name, userName, email, phone, addressId],
+                  (err, userResult) => {
+                    if (err) {
+                      console.error(390, "Error inserting user:", err);
+                      state.status = "Error inserting user";
+                      return res.status(500).send(JSON.stringify(state));
+                    }
+
+                    // Both queries succeeded
+                    createUser(password, userName, listOfUsers);
+                    state.id = true;
+                    state.status = "Added a new user.";
+                    res.send(JSON.stringify(state));
+                  }
+                );
+              }
+            );
+          }
+        );
+      } catch (error) {
+        console.log(380, error);
+      }
     }
   } catch (error) {
-    console.log(401, error);
-    res.send(JSON.stringify("no data."));
+    console.log(384, error);
+    state.status = "no data.";
+    res.send(JSON.stringify(state));
   }
 });
 
 /*---------------------- verify password -------------------------- */
 app.post("/login", (req, res) => {
+  let state = {
+    id: null,
+    status: "",
+  };
   try {
     let { userName, password } = req.body;
-
-    console.log("userName: ", userName, "password: ", password);
-
     const listOfUsers = JSON.parse(
       fs.readFileSync("./users-pass.json", "utf8")
     );
     if (Object.keys(listOfUsers).includes(userName)) {
-      checkPassword(password, listOfUsers[userName], res);
+      console.log(436, "hi");
+      connection.query(
+        `SELECT id FROM users WHERE user_name=?`,
+        [userName],
+        (err, results) => {
+          if (err) {
+            console.error(335, "Error fetching data:", err);
+            state.status = "Error fetching data from the database";
+            res.status(500).send(JSON.stringify(state));
+          } else {
+            console.log(results[0]["id"]);
+            state.id = results[0]["id"];
+            state.status = `hi ${userName}, welcom.`;
+            checkPassword(password, listOfUsers[userName], res, state);
+          }
+        }
+      );
     } else {
-      res.send(JSON.stringify("no user in that name."));
+      state.status = "no user in that name.";
+      res.send(JSON.stringify(state));
     }
   } catch (error) {
-    res.send(JSON.stringify("no data"));
+    state.status = "no data";
+    res.send(JSON.stringify(state));
   }
 });
 
@@ -428,7 +497,11 @@ async function createUser(password, userName, listOfUsers) {
 }
 
 // Function to verify a password from the post
-async function checkPassword(normalPassword, hashedPassword, res) {
+async function checkPassword(normalPassword, hashedPassword, res, state) {
   let isMatch = await verifyPassword(normalPassword, hashedPassword);
-  isMatch ? res.send(JSON.stringify("good")) : res.send(JSON.stringify("bad"));
+  if (!isMatch) {
+    state.id = null;
+    state.status = "wrong password, try again.";
+  }
+  res.send(JSON.stringify(state));
 }
