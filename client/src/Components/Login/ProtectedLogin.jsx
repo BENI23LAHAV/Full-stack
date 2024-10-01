@@ -4,6 +4,10 @@ import { useState, useContext } from "react";
 /**---------------ProtectedLogin component--------------- */
 const ProtectedLogin = (props) => {
   const [userID, setUserID] = useContext(UserContext);
+  {
+    console.log("userID: ", userID);
+  }
+
   return userID ? <Outlet /> : <Navigate to="/login" />;
 };
 

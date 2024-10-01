@@ -16,7 +16,7 @@ import Login from "./Components/Login/Login";
 export const UserContext = createContext(null);
 export const AlbumId = createContext();
 function App() {
-  const [user, setUser] = useState("Hey im a global user");
+  const [user, setUser] = useState(null);
   const [albumId, setAlbumId] = useState(1);
   const [acceptedUser, setAcceptedUser] = useState(false);
   useEffect(() => {
@@ -26,12 +26,21 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Yom_zvaa />
-        {/* <h2>{user.name}</h2>
-        <h3>{user.email}</h3>
-        <h3>{user.city}</h3> */}
-        <button>
-          <Link to={"/"}>Home</Link>
-        </button>
+        {user && (
+          <>
+            <button>
+              <Link to="/">Home</Link>
+            </button>
+
+            <button
+              onClick={() => {
+                setUser(null);
+              }}>
+              Log Out
+            </button>
+          </>
+        )}
+
         {/*--------------make user global-------------------- */}
         <UserContext.Provider value={[user, setUser]}>
           <AlbumId.Provider value={[albumId, setAlbumId]}>
@@ -53,7 +62,6 @@ function App() {
 
                 <Route path="/todos">
                   <Route index element={<Todos />} />
-                  {/* <Route path="new" element={<NewTodo />} /> */}
                 </Route>
 
                 <Route path="/todos" element={<Todos />} />

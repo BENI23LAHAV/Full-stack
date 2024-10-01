@@ -53,6 +53,8 @@ const Login = (props) => {
 
   /**---------------Async login function--------------- */
   async function login(user) {
+    console.log("im user: ", user);
+
     // user = JSON.parse(user);
     console.log("im user: ", user);
 
