@@ -12,7 +12,7 @@ async function Fetch(url, setState) {
   console.log(url);
 }
 /**----------Fetch delete----------------*/
-async function FetchDelete(url) {
+async function FetchDelete(url, setState) {
   fetch(url, {
     method: "DELETE",
   })
@@ -27,10 +27,14 @@ async function FetchDelete(url) {
     .then((json) => {
       if (json) {
         console.log(json);
+        if (setState) {
+          setState(json);
+        }
       }
     });
 }
-async function FetchPut(url, data) {
+/**----------Fetch put---------------- */
+async function FetchPut(url, data, setState) {
   fetch(url, {
     method: "PUT",
     headers: {
@@ -49,9 +53,41 @@ async function FetchPut(url, data) {
     .then((json) => {
       if (json) {
         console.log(json);
+        if (setState) {
+          setState(json);
+        }
+      }
+    });
+}
+/**----------Fetch post---------------- */
+async function FetchPost(url, data, setState) {
+  // let response = null;
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("created");
+
+        return res.json();
+      } else {
+        console.error("Failed to create");
+      }
+    })
+    .then((json) => {
+      if (json) {
+        if (setState) {
+          setState(json);
+        } else {
+          console.log("There is no setState");
+        }
       }
     });
 }
 
-export { FetchDelete, FetchPut };
+export { FetchDelete, FetchPut, FetchPost };
 export default Fetch;

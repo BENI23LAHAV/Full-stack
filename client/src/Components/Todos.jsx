@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import Fetch, { FetchDelete } from "./fetch";
+import Fetch, { FetchDelete, FetchPost } from "./fetch";
 import Todo from "./Todo";
 import NewTodo from "./NewTodo";
+
 let prevLen = 0;
 
 const Todos = (props) => {
@@ -26,6 +27,7 @@ const Todos = (props) => {
   }, [todos]);
   let search = useRef(0);
   // let editText = useRef("");
+  let todoTitle = useRef("");
   return (
     <>
       <h2>Todos</h2>
@@ -44,7 +46,7 @@ const Todos = (props) => {
           onClick={() => {
             setMiniTodos((prev) => {
               const sortedTodos = [...prev].sort((a, b) =>
-                a.title.localeCompare(b.title)
+                a.title.charAt(0).localeCompare(b.title.charAt(0))
               );
               return sortedTodos;
             });
@@ -112,6 +114,7 @@ const Todos = (props) => {
             Not checked only
           </button>
         </div>
+
         <div>
           <button
             onClick={() => {
@@ -120,46 +123,42 @@ const Todos = (props) => {
             }}>
             Creat New Todo
           </button>
-        </div>
-      </div>
-      <div>
-        {newTodo && <NewTodo setTodos={setTodos} length={todos.length + 1} />}
-        <button
-          onClick={() => {
-            setNewTodo(false);
-            // setEditodo(false);
-            if (todoClicked !== -1) {
-              const urlDelete = `http://localhost:4000/2/todos/?todoId=${todoClicked}`;
-              console.log("urlDelete: ", urlDelete);
-              FetchDelete(urlDelete);
-
-              setTodoCLicked(-1);
-              window.location.reload();
-            }
-          }}>
-          Delete
-        </button>
-        {/* <button
-          onClick={() => {
-            setNewTodo(false);
-            // setEditodo((prev) => !prev);
-          }}>
-          {/* Edit */}
-        {/* </button> */}
-        {/* {editTodo && <input type="text" ref={editText} /> && (
           <button
             onClick={() => {
-              toEdit(
-                todoClicked,
-                setTodoCLicked,
-                setTodos,
-                setEditodo,
-                editText
-              );
+              setNewTodo(false);
+              // setEditodo(false);
+              if (todoClicked !== -1) {
+                const urlDelete = `http://localhost:4000/2/todos/?todoId=${todoClicked}`;
+                console.log("urlDelete: ", urlDelete);
+                FetchDelete(urlDelete);
+
+                setTodoCLicked(-1);
+                window.location.reload();
+              }
             }}>
-            Change
+            Delete
           </button>
-        )} */}
+        </div>
+      </div>
+      <div style={{ border: "1px solid red", padding: "10px" }}>
+        {newTodo && (
+          <>
+            <input ref={todoTitle} type="text" placeholder="Enter a title" />
+            <button
+              onClick={() => {
+                FetchPost(url, {
+                  title: todoTitle.current.value,
+                  completed: false,
+                });
+
+                setNewTodo(false);
+
+                window.location.reload();
+              }}>
+              Submit
+            </button>
+          </>
+        )}
       </div>
       {miniTodos.map((item, i) => (
         <Todo setTodoCLicked={setTodoCLicked} todo={item} key={i} />
@@ -177,18 +176,3 @@ function searchMe(setMiniTodos, value) {
 }
 
 export default Todos;
-
-// function toEdit(todoClicked, setTodoCLicked, setTodos, setEditodo, editText) {
-//   if (todoClicked !== -1) {
-//     // return;
-//     setTodos((prev) => {
-//       const todoEdit = [...prev].find((item) => item.id === todoClicked);
-//       todoEdit.title = editText.current.value;
-//       [...prev].splice(todoClicked - 1, 1);
-//       return [...prev, todoEdit];
-//     });
-
-//     setEditodo(false);
-//     setTodoCLicked(-1);
-//   }
-// }

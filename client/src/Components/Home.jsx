@@ -7,6 +7,12 @@ import { UserContext } from "../App";
  * return the nav bar.
  */
 function Home() {
+  /**---------------Trying to check user id global------------ */
+  const [haha, sethaha] = useContext(UserContext);
+  useEffect(() => {
+    console.log("im haha: ", haha);
+  }, [UserContext]);
+  /**---------------Trying to check user id global------------ */
   {
     /*-----------------the user url----------------------- */
   }
@@ -23,6 +29,7 @@ function Home() {
   useEffect(() => {
     Fetch(url, setUser);
   }, []);
+
   return (
     <div>
       <button>

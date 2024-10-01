@@ -1,28 +1,33 @@
-import React, { useState, useRef } from "react";
-import Fetch, { FetchDelete } from "./fetch";
+import React, { useState, useRef, useEffect } from "react";
+import Fetch, { FetchDelete, FetchPut, FetchPost } from "./fetch";
 
 const Post = (props) => {
+  /**-----------Hooks for Showing posts,comments & staff----------- */
+
   const [clicked, setClicked] = useState(false);
   const [comentsClicked, setComentsClicked] = useState(false);
-  const [comentsEdit, setComentsEdit] = useState(false);
-  const [addComent, setAddComent] = useState(true);
-  const [addComentButon, setAddComentButon] = useState(false);
+  const [specifyComment, setSpecifyComment] = useState(-1);
+  const [commentsArr, setComentsArr] = useState([]);
+  const [editPost, setEditPost] = useState(false);
+  const [addComment, setAddComment] = useState(false);
+  const [editComment, setEditComment] = useState(false);
+  /**------------Refs for Post------------------- */
+  let titlePost = useRef("");
+  let bodyPost = useRef("");
+  let bodyComment = useRef("");
+  /**------------Props for Post------------------- */
   const title = props.title;
   const body = props.body;
   const id = props.id;
-  const setPosts = props.setPosts;
-  /**comments zone */
+  /**------------URLs for Fetching-------------------- */
   const commentsUrl = `http://localhost:4000/2/comments?postId=${id}`;
   const postUrl = `http://localhost:4000/2/posts/?postId=${id}`;
-  const [commentsArr, setComentsArr] = useState([]);
+  const urlComment = "http://localhost:4000/2/comments";
 
-  /** end of comments */
-  const [coments, setComents] = useState([]);
-  let coment = useRef("");
-  //   console.log("id" + id);
-  //   console.log("title" + title);
-  //   console.log("body" + body);
-
+  // const [some, setSome] = useState(null);
+  // useEffect(() => {
+  //   console.log("some: ", some);
+  // }, [some]);
   return (
     <div
       className="post"
@@ -41,33 +46,18 @@ const Post = (props) => {
             Fetch(commentsUrl, setComentsArr);
 
             setComentsClicked((prev) => !prev);
-            setAddComent((prev) => !prev);
           }}>
-          Show coments
+          Show comments
         </button>
-        {addComent && (
+
+        {
           <button
             onClick={() => {
-              setAddComentButon((prev) => !prev);
+              setAddComment((prev) => !prev);
             }}>
-            Add coment
+            Add comment
           </button>
-        )}
-        {addComentButon && (
-          <input ref={coment} type="text" placeholder="Enter a coment" />
-        )}
-        {addComentButon && (
-          <button
-            onClick={() => {
-              setComents((prev) => [...prev, coment.current.value]);
-              // setComentsClicked((prev) => !prev);
-              // setAddComent((prev) => !prev);
-              setAddComentButon((prev) => !prev);
-              setClicked((prev) => !prev);
-            }}>
-            Submit
-          </button>
-        )}
+        }
         {
           <button
             onClick={() => {
@@ -77,23 +67,129 @@ const Post = (props) => {
             🗑️ post
           </button>
         }
+        {
+          <button
+            onClick={() => {
+              setEditPost((prev) => !prev);
+            }}>
+            Edit post
+          </button>
+        }
       </div>
+      {editPost && (
+        <>
+          <input ref={titlePost} type="text" placeholder="Enter a title" />
+
+          <input ref={bodyPost} type="text" placeholder="Enter a body" />
+
+          <button
+            onClick={() => {
+              const cuteddUrl = postUrl.slice(0, postUrl.lastIndexOf("/"));
+
+              FetchPut(cuteddUrl, {
+                title: titlePost.current.value,
+                body: bodyPost.current.value,
+                id: id,
+              });
+
+              setEditPost((prev) => !prev);
+              window.location.reload();
+            }}>
+            Change
+          </button>
+        </>
+      )}
+      {addComment && (
+        <>
+          <input ref={bodyComment} type="text" placeholder="Enter a coment" />
+          <button
+            onClick={() => {
+              setAddComment((prev) => !prev);
+
+              FetchPost(urlComment, {
+                post_id: id,
+                body: bodyComment.current.value,
+              });
+
+              window.location.reload();
+            }}>
+            Submit
+          </button>
+        </>
+      )}
+
       <ul>
         {comentsClicked &&
           commentsArr.map((item, index) => {
             return (
-              <li key={index}>
-                <ul>
-                  <li style={{ fontSize: "10px" }}>name: {item.name} </li>
-                  <li style={{ fontSize: "10px" }}>email: {item.email} </li>
-                  <li style={{ fontSize: "20px" }}>comments: {item.body} </li>
-                </ul>
-              </li>
+              <>
+                {" "}
+                <li
+                  key={index}
+                  onClick={() => {
+                    setSpecifyComment(() => {
+                      // console.log("item.id: " + item.id);
+                      return item.id;
+                    });
+                  }}>
+                  <ul>
+                    <li style={{ fontSize: "10px" }}>name: {item.name} </li>
+                    <li style={{ fontSize: "10px" }}>email: {item.email} </li>
+                    <li style={{ fontSize: "20px" }}>comments: {item.body} </li>
+                  </ul>
+                </li>
+              </>
             );
           })}
+        <button
+          onClick={() => {
+            Delete_Selected_Comment(
+              urlComment,
+              specifyComment,
+              setSpecifyComment
+            );
+          }}>
+          Delete selected comment
+        </button>
+        <button
+          onClick={() => {
+            setEditComment((prev) => !prev);
+          }}>
+          Edit selected comment
+        </button>
+        {editComment && (
+          <>
+            {" "}
+            <input ref={bodyComment} type="text" placeholder="Enter a coment" />
+            <button
+              onClick={() => {
+                FetchPut(urlComment, {
+                  id: specifyComment,
+                  post_id: id,
+                  body: bodyComment.current.value,
+                });
+                setEditComment((prev) => !prev);
+                setSpecifyComment(-1);
+                window.location.reload();
+              }}>
+              Change
+            </button>
+          </>
+        )}
       </ul>
     </div>
   );
 };
 
 export default Post;
+
+function Delete_Selected_Comment(
+  urlComment,
+  specifyComment,
+  setSpecifyComment
+) {
+  const urlDeleteComment = urlComment + `?commentId=${specifyComment}`;
+  FetchDelete(urlDeleteComment);
+  setSpecifyComment(-1);
+  window.location.reload();
+}
