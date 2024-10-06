@@ -14,18 +14,27 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #243642;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #E2F1E7;
 }
 
 .App-link {
   color: #61dafb;
+}
+.album, .todo, .register {
+  color: #61dafb;
+}
+.register {
+  cursor: pointer;
+}
+ul {
+  list-style-type: none;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +44,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.border {
+  border: solid 3px #629584;
+  border-radius: 10%;
+  margin: 3px;
+}
+
+button {
+  background-color: antiquewhite;
+  cursor: pointer;
 }

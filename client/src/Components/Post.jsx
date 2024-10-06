@@ -136,10 +136,10 @@ const Post = (props) => {
                       return item.id;
                     });
                   }}>
-                  <ul>
-                    <li style={{ fontSize: "10px" }}>name: {item.name} </li>
-                    <li style={{ fontSize: "10px" }}>email: {item.email} </li>
-                    <li style={{ fontSize: "20px" }}>comments: {item.body} </li>
+                  <ul className="border">
+                    <li className="li" style={{ fontSize: "10px" }}>name: {item.name} </li>
+                    <li className="li" style={{ fontSize: "10px" }}>email: {item.email} </li>
+                    <li className="li" style={{ fontSize: "20px" }}>comments: {item.body} </li>
                   </ul>
                 </li>
               </>

@@ -12,7 +12,7 @@ const Todo = ({ todo, setTodoCLicked }) => {
   return (
     <div
       tabIndex={0}
-      className="todo"
+      className="todo border"
       onClick={() => {
         setTodoCLicked(todo.id);
         // console.log(todo.id);

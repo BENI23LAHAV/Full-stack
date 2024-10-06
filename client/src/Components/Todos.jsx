@@ -140,7 +140,7 @@ const Todos = (props) => {
           </button>
         </div>
       </div>
-      <div style={{ border: "1px solid red", padding: "10px" }}>
+      <div>
         {newTodo && (
           <>
             <input ref={todoTitle} type="text" placeholder="Enter a title" />
