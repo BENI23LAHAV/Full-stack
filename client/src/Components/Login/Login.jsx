@@ -269,7 +269,7 @@ const Login = (props) => {
           onClick={() => {
             setLogOrReg(!logOrReg);
           }}
-          style={{ color: "green" }}>
+          className="register">
           Not registered yet?
         </p>
       ) : (
@@ -277,12 +277,12 @@ const Login = (props) => {
           onClick={() => {
             setLogOrReg(!logOrReg);
           }}
-          style={{ color: "green" }}>
+          className="register">
           Registered?
         </p>
       )}
       {unCorrectValues && <p style={{ color: "red" }}>Uncorrect values</p>}
-      {regSuccess && <p style={{ color: "green" }}>Register succesfuly</p>}
+      {regSuccess && <p  className="register">Register succesfuly</p>}
     </>
   );
 };

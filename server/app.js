@@ -13,7 +13,6 @@ app.use(
 );
 app.use(express.json());
 const port = 4000;
-const user_id = 1;
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -26,33 +25,12 @@ const connection = mysql.createConnection({
 /*----------------create the conection to the DB and kipp it open ----------- */
 connection.connect((err) => {
   if (err) {
-    console.error(28, "Error connecting to the database:", err);
+    console.error(29, "Error connecting to the database:", err);
     return;
   }
-  console.log(31, "Connected to the MySQL database");
+  console.log(32, "Connected to the MySQL database");
 });
 
-/**-----------Function to select the database column----------- */
-function selectColumn(columnName) {
-  switch (columnName) {
-    case "users":
-      return "users";
-    case "address":
-      return "address";
-    case "albums":
-      return "albums";
-    case "photos":
-      return "photos";
-    case "comments":
-      return "comments";
-    case "posts":
-      return "posts";
-    case "todos":
-      return "todos";
-    default:
-      return "column not found";
-  }
-}
 
 /*------------------- home page ------------------- */
 app.get("/", (req, res) => {
@@ -66,8 +44,8 @@ app.get("/:id", (req, res) => {
   connection.query(
     `SELECT  u.name, u.user_name, u.email, u.phone, a.street, a.suite, a.city
                     FROM users u
-                    join address a on u.id = a.id
-                    WHERE a.id=?;`,
+                    join address a on u.address_id = a.id
+                    WHERE u.id=?;`,
     [id],
     (err, results) => {
       if (err) {
@@ -351,7 +329,7 @@ app.post("/:id/comments", (req, res) => {
     }
   );
 });
-/**-------------todo: I am here !!!!!!!!!!!!! need to push the sql the data gets about the user------------- */
+
 /*---------------------- create a new user --------------- */
 app.post("/register", (req, res) => {
   let state = {
