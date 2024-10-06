@@ -8,6 +8,15 @@ const urlLogin = "http://localhost:4000/login";
 const urlRegister = "http://localhost:4000/register";
 /**---------------Login component--------------- */
 const Login = (props) => {
+  const navigate = useNavigate();
+  if (localStorage.getItem("CurrentUserID")) {
+    console.log(
+      "im a userID from localStorage: ",
+      localStorage.getItem("CurrentUserID")
+    );
+    navigate("/");
+  }
+
   /**---------------Trying to check user id global------------ */
   const [userID, setUserID] = useContext(UserContext);
   useEffect(() => {
@@ -48,9 +57,6 @@ const Login = (props) => {
     );
   }
 
-  /**---------------Navigate to home page--------------- */
-  const navigate = useNavigate(); //for navigate to home page
-
   /**---------------Async login function--------------- */
   async function login(user) {
     console.log("im user: ", user);
@@ -61,6 +67,7 @@ const Login = (props) => {
     if (user.user_id) {
       setAcceptedUser(user.user_id);
       setUserID(user.user_id);
+      localStorage.setItem("CurrentUserID", JSON.stringify(user.user_id));
       //do it to useContext
       navigate("/");
     } else {

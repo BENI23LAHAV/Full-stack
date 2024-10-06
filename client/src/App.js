@@ -14,9 +14,10 @@ import ProtectedLogin from "./Components/Login/ProtectedLogin";
 import Login from "./Components/Login/Login";
 /*------------the main user------------------- */
 export const UserContext = createContext(null);
+
 export const AlbumId = createContext();
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem("CurrentUserID"));
   const [albumId, setAlbumId] = useState(1);
   const [acceptedUser, setAcceptedUser] = useState(false);
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
             <button
               onClick={() => {
                 setUser(null);
+                localStorage.removeItem("CurrentUserID");
               }}>
               Log Out
             </button>
