@@ -161,9 +161,9 @@ const Todos = (props) => {
           </>
         )}
       </div>
-      {miniTodos.map((item, i) => (
+      <section> {miniTodos.map((item, i) => (
         <Todo setTodoCLicked={setTodoCLicked} todo={item} key={i} />
-      ))}
+      ))}</section>
     </>
   );
 };

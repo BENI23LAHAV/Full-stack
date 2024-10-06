@@ -28,7 +28,7 @@ function App() {
       <header className="App-header">
         <Yom_zvaa />
         {user && (
-          <>
+          <section className="nav">
             <button>
               <Link to="/">Home</Link>
             </button>
@@ -40,7 +40,7 @@ function App() {
               }}>
               Log Out
             </button>
-          </>
+          </section>
         )}
 
         {/*--------------make user global-------------------- */}
