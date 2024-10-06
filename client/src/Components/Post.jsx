@@ -35,6 +35,7 @@ const Post = (props) => {
   return (
     <div
       className="post"
+      tabIndex={0}
       onClick={(e) => {
         if (e.target.className === "title") {
           setClicked((prev) => !prev);

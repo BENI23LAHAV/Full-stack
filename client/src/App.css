@@ -37,6 +37,11 @@ ul {
   list-style-type: none;
 }
 
+.nav {
+  display: flex;
+  gap: 40px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -52,7 +57,15 @@ ul {
   margin: 3px;
 }
 
-button {
+button, .check-box {
   background-color: antiquewhite;
   cursor: pointer;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.todo:focus, post:focus {
+  border: 3px greenyellow solid;
 }

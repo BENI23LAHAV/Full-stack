@@ -51,6 +51,7 @@ const Todo = ({ todo, setTodoCLicked }) => {
         }
         type="checkbox"
         checked={completed}
+        className="check-box"
       />
       <p>{title}</p>
     </div>
