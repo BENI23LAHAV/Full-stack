@@ -2,9 +2,11 @@ import React, { useEffect, useState, useRef, useContext } from "react";
 import Fetch, { FetchDelete, FetchPost } from "./fetch";
 import Todo from "./Todo";
 import { UserContext } from "../App";
+import { useNavigate } from "react-router-dom";
 let prevLen = 0;
 
 const Todos = (props) => {
+  const navigate = useNavigate();
   const [newTodo, setNewTodo] = useState(false);
   // const [editTodo, setEditodo] = useState(false);
   const [todoClicked, setTodoCLicked] = useState(-1);
@@ -150,7 +152,6 @@ const Todos = (props) => {
                   title: todoTitle.current.value,
                   completed: false,
                 });
-
                 setNewTodo(false);
 
                 window.location.reload();
