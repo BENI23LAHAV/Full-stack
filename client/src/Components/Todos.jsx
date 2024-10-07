@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Fetch, { FetchDelete } from "./fetch";
 import Todo from "./Todo";
 import NewTodo from "./NewTodo";
+import { UserContext } from "../App";
 let prevLen = 0;
 
 const Todos = (props) => {
   const [newTodo, setNewTodo] = useState(false);
   // const [editTodo, setEditodo] = useState(false);
   const [todoClicked, setTodoCLicked] = useState(-1);
+  const [userID, setUserID] = useContext(UserContext);
   const [todos, setTodos] = useState([]);
   // const url = "https://jsonplaceholder.typicode.com/todos?userId=1";
-  const url = "http://localhost:4000/2/todos";
+  const url = `http://localhost:4000/${userID}/todos`;
 
   useEffect(() => {
     console.log(todoClicked);
