@@ -26,9 +26,12 @@ const Photos = (props) => {
         onClick={() => setCounter((counter) => counter + chunkSize)}>
         Forward
       </button>
+      <div className="photos">
       {getChunk(photos, counter)?.map((item, i) => (
         <Photo photo={item} key={i} />
       ))}
+      </div>
+      
     </div>
   );
 };
