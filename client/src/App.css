@@ -14,7 +14,7 @@
 }
 
 body {
-  background-color: #32012F;
+  background-color: #32012f;
 }
 
 .App-header {
@@ -25,14 +25,16 @@ body {
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: #E2F1E7;
-  flex-wrap: wrap;
+  color: #e2f1e7;
+  flex-wrap:nowrap;
 }
 
 .App-link {
   color: #61dafb;
 }
-.album, .todo, .register {
+.album,
+.todo,
+.register {
   color: #61dafb;
 }
 .register {
@@ -62,7 +64,8 @@ ul {
   margin: 3px;
 }
 
-button, .check-box {
+button,
+.check-box {
   background-color: antiquewhite;
   cursor: pointer;
 }
@@ -71,7 +74,8 @@ button {
   border-radius: 15px;
 }
 
-button:hover, .check-box:hover {
+button:hover,
+.check-box:hover {
   opacity: 0.8;
 }
 
@@ -84,7 +88,8 @@ a {
   cursor: pointer;
 }
 
-.todo:focus, post:focus {
+.todo:focus,
+post:focus {
   border: 3px greenyellow solid;
 }
 
@@ -92,4 +97,11 @@ a {
   display: flex;
   align-items: center;
   gap: 30px;
+}
+
+
+.photos {
+  display: flex;
+  gap: 35px;
+  flex-wrap: wrap;
 }
