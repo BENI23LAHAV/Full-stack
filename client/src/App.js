@@ -25,21 +25,26 @@ function App() {
   }, [acceptedUser]);
   return (
     <div className="App">
-      <header className="App-header">
-        <Yom_zvaa />
-        {user && (
-          <section className="nav">
-            <button>
-              <Link to="/">Home</Link>
-            </button>
-
-            <button
+        <header className="App-header">
+      <div className="start-column">
+      <button
               onClick={() => {
                 setUser(null);
                 localStorage.removeItem("CurrentUserID");
               }}>
               Log Out
             </button>
+            <Yom_zvaa />
+      </div>
+        
+    
+       
+        {user && (
+          <section className="nav">
+            <button>
+              <Link to="/">Home</Link>
+            </button>
+
           </section>
         )}
 

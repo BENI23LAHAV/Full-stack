@@ -13,15 +13,20 @@
   }
 }
 
+body {
+  background-color: #32012F;
+}
+
 .App-header {
-  background-color: #243642;
-  min-height: 100vh;
+  /* background-color: #243642; */
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #E2F1E7;
+  flex-wrap: wrap;
 }
 
 .App-link {
@@ -61,11 +66,30 @@ button, .check-box {
   background-color: antiquewhite;
   cursor: pointer;
 }
+
+button {
+  border-radius: 15px;
+}
+
+button:hover, .check-box:hover {
+  opacity: 0.8;
+}
+
 a {
   text-decoration: none;
   color: black;
 }
 
+.title {
+  cursor: pointer;
+}
+
 .todo:focus, post:focus {
   border: 3px greenyellow solid;
+}
+
+.start-column {
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
