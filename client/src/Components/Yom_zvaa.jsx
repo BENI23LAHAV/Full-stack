@@ -4,7 +4,7 @@ import React from "react";
 const Yom_zvaa = () => {
   return (
     <div>
-      <h1>יום זוועה, ביי</h1>
+      <h1 className="rubik-wet-paint-regular">יום זוועה, ביי</h1>
       {/* <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4etDiWIf966TJHRnVFD-EdEz8kTNCIj2H0g&s"
         alt="ברקוני "
