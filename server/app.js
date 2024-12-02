@@ -2,7 +2,7 @@ const fs = require("fs");
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const app = express();
 
 app.use(
@@ -12,12 +12,12 @@ app.use(
   })
 );
 app.use(express.json());
-const port = 4000;
+const port = 5000;
 
 const connection = mysql.createConnection({
-  host: "localhost",
+  host:  "172.24.32.1", // or local host if not in docker.
   port: 3306,
-  user: "root",
+  user: "docker_user",  // or root if not in docker.
   password: "123456",
   database: "easy",
 });
@@ -439,7 +439,7 @@ app.post("/login", (req, res) => {
 });
 
 /*-----------------set listener open on port 4000 ------------------ */
-app.listen(port, () => {
+app.listen(port,'0.0.0.0' ,() => {
   console.log(`Server is running at http://localhost:${port}`);
 });
 /*------------------end of the express -------------------------- */
